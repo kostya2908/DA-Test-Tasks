@@ -12,7 +12,7 @@ CREATE TABLE orders_raw (
 --load CSV to orders_raw:
 \copy orders_raw FROM 'orders.csv' WITH (FORMAT csv, header);
 
---Найти клиентов кто купил 7 iPhone и 2 Airpods:
+--Найти клиентов кто купил 6 iPhone и 1 Airpods:
 WITH tab AS (
 	SELECT 
 		Customer_Name,
