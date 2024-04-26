@@ -16,16 +16,15 @@ CREATE TABLE orders_raw (
 WITH tab AS (
 	SELECT 
 		Customer_Name,
-		Prod_Name,
-		SUM(Qty)
+		SUM(Qty) FILTER (WHERE Prod_Name = 'iPhone') AS iPhone_ttl,
+		SUM(Qty) FILTER (WHERE Prod_NAme = 'Airpods') AS Airpods_ttl
 	FROM orders_raw
-	GROUP BY 1, 2
-	HAVING (Prod_Name = 'iPhone' AND SUM(Qty) = 7)
-		OR
-		(Prod_Name = 'Airpods' AND SUM(Qty) = 2)
-	Order BY 1, 2
+	GROUP BY 1 ORDER BY 1	
 )
 
-SELECT Customer_Name FROM tab;
+SELECT * 
+FROM tab 
+WHERE iPhone_ttl = 6 AND Airpods_ttl = 1
+;
 
 
