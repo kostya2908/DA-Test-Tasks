@@ -1,9 +1,15 @@
+import numpy as np
+
 a = [1,2,3,4,5,6,7,8,9]
+#a = np.arange(1000000000).tolist()
+#print(a)
+
 
 #FIRST:
 
 first = a[::-1]
-print(f'first:\n{first}')
+#print(f'first:\n{first}')
+
 
 #SECOND:
 
@@ -16,7 +22,8 @@ while left < right:
     second[right] = temp
     left += 1
     right -= 1
-print(f'second:\n{second}')
+#print(f'second:\n{second}')
+
 
 #THIRD:
 
