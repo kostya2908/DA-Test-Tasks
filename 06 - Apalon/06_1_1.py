@@ -50,6 +50,8 @@ plt.tick_params(axis='x', labelrotation=90, labelsize=8)
 plt.subplot(111).set(title=df.columns[1])
 plt.xticks(df.index[::3])
 plt.tight_layout()
+plt.savefig('./total_time_spent.png')
+#plt.close()
 
 #Sessions:
 plt.figure(2, figsize=(19, 4.5))
@@ -60,6 +62,8 @@ plt.tick_params(axis='x', labelrotation=90, labelsize=8)
 plt.subplot(111).set(title=df.columns[5])
 plt.xticks(df.index[::3])
 plt.tight_layout()
+plt.savefig('./sessions.png')
+#plt.close()
 
 #Active Users:
 plt.figure(3, figsize=(19, 4.5))
@@ -70,6 +74,8 @@ plt.tick_params(axis='x', labelrotation=90, labelsize=8)
 plt.subplot(111).set(title=df.columns[4])
 plt.xticks(df.index[::3])
 plt.tight_layout()
+plt.savefig('./active_users.png')
+#plt.close()
 
 #New Users:
 plt.figure(4, figsize=(19, 4.5))
@@ -80,6 +86,8 @@ plt.tick_params(axis='x', labelrotation=90, labelsize=8)
 plt.subplot(111).set(title=df.columns[3])
 plt.xticks(df.index[::3])
 plt.tight_layout()
+plt.savefig('./new_users.png')
+#plt.close()
 
 #Users Counts:
 users_fields = df.iloc[:, 6:13].columns.to_list()
@@ -92,6 +100,34 @@ plt.grid(axis='both', ls=':', color='grey')
 plt.tick_params(axis='x', labelrotation=90, labelsize=8)
 plt.xticks(df.index[::3])
 plt.tight_layout()
+plt.savefig('./user_counts.png')
+#plt.close()
+
+#AVG Session Length:
+plt.figure(6, figsize=(19, 4.5))
+plt.plot(df.iloc[:, 2], label=df.columns[2])
+plt.legend()
+plt.grid(axis='both', ls=':', color='grey')
+plt.tick_params(axis='x', labelrotation=90, labelsize=8)
+plt.subplot(111).set(title=df.columns[2])
+plt.xticks(df.index[::3])
+plt.tight_layout()
+plt.savefig('./avg_sess_length.png')
+#plt.close()
+
+#Median Session Length:
+plt.figure(7, figsize=(19, 4.5))
+plt.plot(df.iloc[:, 0], label=df.columns[0])
+plt.legend()
+plt.grid(axis='both', ls=':', color='grey')
+plt.tick_params(axis='x', labelrotation=90, labelsize=8)
+plt.subplot(111).set(title=df.columns[0])
+plt.xticks(df.index[::3])
+plt.tight_layout()
+plt.savefig('./median_sess_length.png')
+#plt.close()
+
+
 
 
 plt.show()
