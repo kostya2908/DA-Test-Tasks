@@ -60,6 +60,15 @@ part_2 = df[df['origin_country'].isin(top_5)]\
 #3. При помощи любой библиотеки визуализируйте динамику профита, оборота,
 #доли профита от оборота по заказам с услугами. Опишите распределения и сделайте выводы.
 
+def get_color(pctg, dow):
+    if pctg > 100:
+        return 'silver'
+    else:
+        if dow:
+            return 'red'
+        else:
+            return 'orange'
+
 df['service_price'].fillna(0, inplace=True)
 #print(df[~df['service'].isna()])
 
@@ -70,11 +79,11 @@ part_3 = df[~df['service'].isna()]\
         .round(2)
 part_3['profit_portion'] = (100 * part_3['service_profit'] / part_3['service_price'])\
         .round(2)
-
 part_3.reset_index(inplace=True)
 
 part_3['weekend'] = part_3['order_date'].dt.dayofweek > 4 
-part_3['color'] = part_3['weekend'].apply(lambda x: 'red' if x else 'orange')
+part_3['color'] = part_3\
+        .apply(lambda x: get_color(x['profit_portion'], x['weekend']), axis=1)
 part_3.drop('weekend', axis=1, inplace=True)
 print(part_3)        
 
