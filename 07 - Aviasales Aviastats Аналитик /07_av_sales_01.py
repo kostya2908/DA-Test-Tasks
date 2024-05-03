@@ -79,7 +79,7 @@ ms_gr = ms[['origin', 'airline', 'passengers']].pivot_table(values='passengers',
                                                             columns='origin',
                                                             aggfunc='sum',
                                                             fill_value=0)
-print(ms_gr)
+#print(ms_gr)
 three = plt.figure(3, figsize=(13.5, 4.5))
 svo = three.add_subplot(131)
 ms_gr_svo = ms_gr['SVO'][ms_gr['SVO'] > 900].sort_values(ascending=False)
@@ -106,5 +106,16 @@ dme.set(title='DME - Domodedovo')
 plt.tight_layout()
 plt.savefig('./03_airlines.png')
 
+#The airline with cheapest ticket MSK-SPB:
+ms['price_per_person'] = round(ms['price'] / ms['passengers'], 1)
+#print(ms.loc[ms.groupby('airline')['price_per_person'].idxmin()].sort_values('price'))
 
+#The largest revenue (sum and avg):
+revenue = ms.groupby('airline').agg(total=('price', 'sum'), per_person=('price_per_person', 'mean')).round(2)
+revenue_total = revenue['total'].sort_values(ascending=False)
+revenue_avg = revenue['per_person'].sort_values(ascending=False)
+
+print(revenue)
+print(revenue_total.head(3))
+print(revenue_avg.head(3))
 
