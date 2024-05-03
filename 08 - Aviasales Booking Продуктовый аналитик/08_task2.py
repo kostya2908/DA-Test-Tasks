@@ -96,5 +96,6 @@ for i, v in enumerate(list(part_3.columns)[1:-1]):
     ax[i].grid(axis='y', ls=':', color='grey')
     ax[i].set(title=f"{(' '.join(v.split('_'))).title()}, {units[i]}")
 plt.tight_layout()
+plt.savefig('./service_dynamics.png')
 plt.show()
 
