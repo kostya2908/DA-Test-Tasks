@@ -1,6 +1,7 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 from datetime import datetime
+from matplotlib.lines import Line2D
 
 #pd.set_option('display.max_columns', None)
 
@@ -85,16 +86,36 @@ part_3['weekend'] = part_3['order_date'].dt.dayofweek > 4
 part_3['color'] = part_3\
         .apply(lambda x: get_color(x['profit_portion'], x['weekend']), axis=1)
 part_3.drop('weekend', axis=1, inplace=True)
+part_3['price_roll'] = part_3['service_price']\
+        .rolling(7, min_periods=1, center=True)\
+        .mean().round(2)
+part_3['profit_roll'] = part_3['service_profit']\
+        .rolling(7, min_periods=1, center=True)\
+        .mean().round(2)
 print(part_3)        
-
 fig, ax = plt.subplots(3, 1, figsize=(18, 9))
 units = ['RUB', 'RUB', '%']
-for i, v in enumerate(list(part_3.columns)[1:-1]):
+for i, v in enumerate(list(part_3.columns)[1:4]):
     ax[i].bar(part_3['order_date'], part_3[v], color=part_3['color'])
     ax[i].set_xticks(part_3['order_date'])
     ax[i].tick_params(axis='x', labelsize=7, labelrotation=90)
     ax[i].grid(axis='y', ls=':', color='grey')
     ax[i].set(title=f"{(' '.join(v.split('_'))).title()}, {units[i]}")
+#Rolling averages:
+ax[0].plot(part_3['order_date'], part_3['price_roll'], color='blue', ls='dashed',
+           label='Rolling Average (7 days)', alpha=0.35)
+ax[1].plot(part_3['order_date'], part_3['profit_roll'], color='blue', ls='dashed',
+           label='Rolling Average (7 days)', alpha=0.35)
+#Legend (manually):
+colors = {'Weekdays': 'orange', 'Weekends': 'red',
+          'Incorrect Data': 'silver', 'Rolling AVG': 'blue'}
+labels = list(colors.keys())
+handles = [plt.Rectangle((0,0),1,1, color=colors[label]) for label in labels[:-1]]
+line = Line2D([0], [0], label=labels[3], color=colors['Rolling AVG'], ls='dashed', alpha=0.35)
+handles.extend([line])
+ax[0].legend(handles, labels)
+ax[1].legend(handles, labels)
+ax[2].legend(handles[:-1], labels, loc='upper left')
 plt.tight_layout()
 plt.savefig('./service_dynamics.png')
 plt.show()
